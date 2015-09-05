@@ -32,7 +32,7 @@ module.exports = function (grunt) {
 
     // typescript
     ts: {
-      content_script : {
+      content_scripts : {
         out: "app/content_scripts/scripts/video_speed_content_scripts.js",
         src: ["dev/content_scripts/scripts/{,*/}*.ts"],
         options: {
@@ -45,9 +45,9 @@ module.exports = function (grunt) {
       options: {
         sourceMap: true
       },
-      content_script: {
+      content_scripts: {
         files: [{
-          'app/content_scripts/styles/video-speed.css': 'dev/content_scripts/styles/{,*/}*.css'
+          'app/content_scripts/styles/video-speed.css': 'dev/content_scripts/styles/{,*/}*.scss'
         }]
       }
     },
@@ -128,7 +128,7 @@ module.exports = function (grunt) {
       'clean',
       'copy:dev',
       'copy:icons',
-      'sass:content_script',
+      'sass:content_scripts',
       'tslint',
       'ts'
     ]);
@@ -143,4 +143,4 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('default', ['debug']);
-}
+};
