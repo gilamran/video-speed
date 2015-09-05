@@ -1,0 +1,10 @@
+node_modules
+bower_components
+temp
+app
+.idea
+.tmp
+dist
+.sass-cache
+.tscache
+package
