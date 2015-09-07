@@ -24,8 +24,12 @@ module.exports = function (grunt) {
         files: ['dev/icons/{,*/}*.png'],
         tasks: ['copy:icons']
       },
+      manifest: {
+        files: ['dev/manifest.json'],
+        tasks: ['copy:manifest']
+      },
       styles: {
-        files: ['dev/content_scripts/styles/{,*/}*.css'],
+        files: ['dev/content_scripts/styles/{,*/}*.scss'],
         tasks: ['sass:content_scripts']
       }
     },
@@ -36,14 +40,14 @@ module.exports = function (grunt) {
         out: "app/content_scripts/scripts/video_speed_content_scripts.js",
         src: ["dev/content_scripts/scripts/{,*/}*.ts"],
         options: {
-          sourceMap: true
+          sourceMap: false
         }
       }
     },
 
     sass: {
       options: {
-        sourceMap: true
+        sourceMap: false
       },
       content_scripts: {
         files: [{
@@ -75,7 +79,7 @@ module.exports = function (grunt) {
 
     // Copies remaining files to places other tasks can use
     copy: {
-      dev: {
+      manifest: {
         files: [{
           expand: true,
           nonull: true,
@@ -83,8 +87,6 @@ module.exports = function (grunt) {
           cwd: 'dev',
           dest: 'app',
           src: [
-            'content_scripts/bower_components/jquery/dist/jquery.min.js',
-            'content_scripts/bower_components/jquery/dist/jquery.min.map',
             '_locales/**',
             'manifest.json'
           ]
@@ -104,6 +106,14 @@ module.exports = function (grunt) {
       }
     },
 
+    uglify: {
+      content_scripts: {
+        files: {
+          'app/content_scripts/scripts/video_speed_content_scripts.js': ['app/content_scripts/scripts/video_speed_content_scripts.js']
+        }
+      }
+    },
+
     // Compres dist files to package
     compress: {
       dist: {
@@ -116,7 +126,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: 'app/',
-          src: ['**', '!*.map'],
+          src: ['**', '!**/*.map'],
           dest: ''
         }]
       }
@@ -126,7 +136,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', function () {
     grunt.task.run([
       'clean',
-      'copy:dev',
+      'copy:manifest',
       'copy:icons',
       'sass:content_scripts',
       'tslint',
@@ -139,6 +149,14 @@ module.exports = function (grunt) {
     grunt.task.run([
       'build',
       'watch'
+    ]);
+  });
+
+  grunt.registerTask('package', function () {
+    grunt.task.run([
+      'build',
+      'uglify',
+      'compress'
     ]);
   });
 

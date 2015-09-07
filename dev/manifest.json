@@ -21,7 +21,6 @@
                   "content_scripts/styles/video-speed.css"
             ],
             "js": [
-                "content_scripts/bower_components/jquery/dist/jquery.min.js",
 				        "content_scripts/scripts/video_speed_content_scripts.js"
             ],
 			      "all_frames": true,
